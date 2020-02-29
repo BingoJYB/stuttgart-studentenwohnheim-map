@@ -13,11 +13,8 @@ def create_app():
     # Initialize Plugins
     db.init_app(app)
 
-    with app.app_context():
-        # Include our Routes
-        from app.routes import my_app
+    from app.routes import my_app
+    # Register Blueprints
+    app.register_blueprint(my_app)
 
-        # Register Blueprints
-        app.register_blueprint(my_app)
-
-        return app
+    return app
