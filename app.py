@@ -1,9 +1,9 @@
 from lib.scraper import WebScraper
 
-from flask import Flask, render_template, g
+from flask import Flask, render_template
 
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
+app.config.from_object('config.Config')
 
 
 @app.route('/')
