@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run and Debug app.py",
+            "name": "Run and Debug wsgi.py",
             "type": "python",
             "request": "launch",
-            "program": "/home/bingo/snap/code/git/studierendenwerk-google-map/app.py",
+            "program": "/home/bingo/snap/code/git/studierendenwerk-google-map/wsgi.py",
             "console": "integratedTerminal"
         }
     ]
