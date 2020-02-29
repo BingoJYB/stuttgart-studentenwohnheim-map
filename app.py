@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from lib.scraper import WebScraper
+
+from flask import Flask, render_template, g
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -6,7 +8,9 @@ app.config.from_pyfile('config.py')
 
 @app.route('/')
 def index():
-    return render_template('index.html', name='John')
+    ws = WebScraper(app.config['URL'])
+    ws.parse_page()
+    return render_template('index.html', name='World')
 
 
 if __name__ == '__main__':
