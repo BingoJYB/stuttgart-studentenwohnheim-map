@@ -1,6 +1,7 @@
-from app.scraper import WebScraper
-
 from flask import current_app, Blueprint, render_template
+
+from app.models import db, HousingInfo
+from app.scraper import WebScraper
 
 
 my_app = Blueprint('my_app', __name__,
@@ -9,6 +10,18 @@ my_app = Blueprint('my_app', __name__,
 
 @my_app.route('/')
 def index():
-    ws = WebScraper(current_app.config['URL'])
-    ws.parse_page()
+    ws = WebScraper(current_app.config['HOUSING_URL'])
+    houses = ws.parse_page()
+
+    for housing_info in houses:
+        house = HousingInfo(
+            image=housing_info['image'],
+            name=housing_info['name'],
+            address=housing_info['address'],
+            price=housing_info['price'],
+            detail=housing_info['detail']
+        )
+        db.session.add(house)
+        db.session.commit()
+
     return render_template('index.html', name='World')

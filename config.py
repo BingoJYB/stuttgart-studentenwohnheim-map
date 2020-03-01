@@ -16,4 +16,4 @@ class Config:
 
     # URL
     BASE_URL = environ.get('BASE_URL')
-    URL = environ.get('URL')
+    HOUSING_URL = environ.get('HOUSING_URL')
