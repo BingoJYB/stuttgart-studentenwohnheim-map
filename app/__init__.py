@@ -8,7 +8,9 @@ from werkzeug.utils import import_string
 # load dotenv in the base root
 APP_ROOT = os.path.join(os.path.dirname(__file__), '..')
 dotenv_path = os.path.join(APP_ROOT, '.env')
+dotflaskenv_path = os.path.join(APP_ROOT, '.flaskenv')
 load_dotenv(dotenv_path)
+load_dotenv(dotflaskenv_path)
 
 extensions = [
     'app.models:db'

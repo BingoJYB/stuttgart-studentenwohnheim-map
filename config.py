@@ -5,8 +5,9 @@ class Config:
     """Set Flask configuration vars from .env file."""
 
     # General
-    DEBUG = os.getenv('DEBUG')
+    FLASK_DEBUG = os.getenv('FLASK_DEBUG')
     FLASK_ENV = os.getenv('FLASK_ENV')
+    FLASK_HOSTNAME = os.getenv('FLASK_HOSTNAME')
     SECRET_KEY = os.getenv('SECRET_KEY')
 
     # Database
