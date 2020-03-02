@@ -12,11 +12,11 @@ class HousingInfo(db.Model):
                       unique=False,
                       nullable=False)
     name = db.Column(db.String(80),
-                     index=True,
+                     index=False,
                      unique=False,
                      nullable=False)
     address = db.Column(db.Text,
-                        index=False,
+                        index=True,
                         unique=True,
                         nullable=False)
     price = db.Column(db.Text,
