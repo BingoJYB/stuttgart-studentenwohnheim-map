@@ -9,11 +9,11 @@ class HousingInfo(db.Model):
                    primary_key=True)
     image = db.Column(db.Text,
                       index=False,
-                      unique=True,
+                      unique=False,
                       nullable=False)
     name = db.Column(db.String(80),
                      index=True,
-                     unique=True,
+                     unique=False,
                      nullable=False)
     address = db.Column(db.Text,
                         index=False,

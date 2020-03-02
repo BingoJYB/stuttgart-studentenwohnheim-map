@@ -14,14 +14,24 @@ def index():
     houses = ws.parse_page()
 
     for housing_info in houses:
-        house = HousingInfo(
-            image=housing_info['image'],
-            name=housing_info['name'],
-            address=housing_info['address'],
-            price=housing_info['price'],
-            detail=housing_info['detail']
-        )
-        db.session.add(house)
+        existing_house = HousingInfo.query.filter_by(
+            address=housing_info['address']).first()
+
+        if existing_house:
+            existing_house.image = housing_info['image']
+            existing_house.name = housing_info['name']
+            existing_house.price = housing_info['price']
+            existing_house.detail = housing_info['detail']
+        else:
+            house = HousingInfo(
+                image=housing_info['image'],
+                name=housing_info['name'],
+                address=housing_info['address'],
+                price=housing_info['price'],
+                detail=housing_info['detail']
+            )
+            db.session.add(house)
+
         db.session.commit()
 
     return render_template('index.html', name='World')
