@@ -7,7 +7,6 @@ class Config:
     # General
     FLASK_DEBUG = os.getenv('FLASK_DEBUG')
     FLASK_ENV = os.getenv('FLASK_ENV')
-    FLASK_HOSTNAME = os.getenv('FLASK_HOSTNAME')
     SECRET_KEY = os.getenv('SECRET_KEY')
 
     # Database
@@ -16,5 +15,4 @@ class Config:
         'SQLALCHEMY_TRACK_MODIFICATIONS')
 
     # URL
-    BASE_URL = os.getenv('BASE_URL')
-    HOUSING_URL = os.getenv('HOUSING_URL')
+    WOHNUNG_URL = os.getenv('WOHNUNG_URL')

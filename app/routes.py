@@ -10,7 +10,7 @@ my_app = Blueprint('my_app', __name__,
 
 @my_app.route('/')
 def index():
-    ws = WebScraper(current_app.config['HOUSING_URL'])
+    ws = WebScraper(current_app.config['WOHNUNG_URL'])
     houses = ws.parse_page()
 
     for housing_info in houses:
