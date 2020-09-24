@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class HousingInfo(db.Model):
-    __tablename__ = 'housing_info'
+class WohnungInfo(db.Model):
+    __tablename__ = 'wohnung_info'
     id = db.Column(db.Integer,
                    primary_key=True)
     image = db.Column(db.Text,
@@ -29,4 +29,4 @@ class HousingInfo(db.Model):
                        nullable=False)
 
     def __repr__(self):
-        return '<House {}>'.format(self.name)
+        return '<Wohnung {}>'.format(self.name)

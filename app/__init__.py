@@ -11,7 +11,7 @@ dotenv_path = os.path.join(APP_ROOT, '.env')
 load_dotenv(dotenv_path)
 
 extensions = [
-    'app.models:db'
+    'app.sqlalchemy:db'
 ]
 blueprints = [
     'app.routes:my_app'

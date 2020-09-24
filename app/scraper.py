@@ -2,36 +2,34 @@ import requests
 import cssutils
 from bs4 import BeautifulSoup
 
+from app.models.wohnung import Wohnung
+from app.models.studentenwohnheim import Studentenwohnheim
+
 
 class WebScraper(object):
 
     def __init__(self, url):
+        self.studentenwohnheim = Studentenwohnheim()
         page = requests.get(url)
         self.bs = BeautifulSoup(page.content, 'html.parser')
 
     def parse_page(self):
-        housing_results = self.bs.find_all('div', class_='housing-result-item')
-        houses = list()
+        wohnung_results = self.bs.find_all('div', class_='housing-result-item')
 
-        for housing_result in housing_results:
-            housing_image = housing_result.find('div', class_='result-image')
-            housing_image_url = cssutils.parseStyle(housing_image['style'])[
+        for wohnung_result in wohnung_results:
+            wohnung_image = wohnung_result.find('div', class_='result-image')
+            wohnung_image_url = cssutils.parseStyle(wohnung_image['style'])[
                 'background-image'].replace('url(', '').replace(')', '')
 
-            housing_info = housing_result.find('div', class_='result-text')
-            housing_name = housing_info.find('h3').text
-            address = housing_info.find_all('p')[0].find_all('span')
+            wohnung_info = wohnung_result.find('div', class_='result-text')
+            wohnung_name = wohnung_info.find('h3').text
+            address = wohnung_info.find_all('p')[0].find_all('span')
             address = ', '.join(list(map(lambda x: x.text, address)))
-            price = housing_info.find_all('p')[1].text
-            housing_details_link = housing_info.find('a')['href']
+            price = wohnung_info.find_all('p')[1].text
+            wohnung_details_link = wohnung_info.find('a')['href']
 
-            house = {
-                'image': housing_image_url,
-                'name': housing_name,
-                'address': address,
-                'price': price,
-                'detail': housing_details_link
-            }
-            houses.append(house)
+            wohnung = Wohnung(wohnung_image_url, wohnung_name,
+                              address, price, wohnung_details_link)
+            self.studentenwohnheim.wohnungen.append(wohnung)
 
-        return houses
+        return self.studentenwohnheim
