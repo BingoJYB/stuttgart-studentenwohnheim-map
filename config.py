@@ -1,13 +1,16 @@
 import os
 
 
+APP_ROOT = os.path.dirname(__file__)
+
+
 class Config:
     """Set Flask configuration vars from .env file."""
 
     # General
     FLASK_DEBUG = os.getenv('FLASK_DEBUG')
     FLASK_ENV = os.getenv('FLASK_ENV')
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.urandom(16)
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
@@ -15,4 +18,8 @@ class Config:
         'SQLALCHEMY_TRACK_MODIFICATIONS')
 
     # URL
-    WOHNUNG_URL = os.getenv('WOHNUNG_URL')
+    BASE_URL = os.getenv('BASE_URL')
+    WOHNUNG_URL = BASE_URL + os.getenv('WOHNUNG_RELATIVE_URL')
+
+    # Image
+    IMAGE_FOLDER = APP_ROOT + os.getenv('IMAGE_FOLDER')
