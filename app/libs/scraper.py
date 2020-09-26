@@ -35,7 +35,8 @@ class WebScraper(object):
                               address, price, wohnung_details_link)
             self.studentenwohnheim.wohnungen.append(wohnung)
 
-    def __download_image(self, image_url, wohnung_name):
+    @staticmethod
+    def _download_image(image_url, wohnung_name):
         real_image_url = get_image_url(image_url)
         image = requests.get(real_image_url, stream=True)
         image_path = get_downloaded_image_path(wohnung_name)
@@ -53,7 +54,7 @@ class WebScraper(object):
         check_image_folder_exist()
 
         for image_url, wohnung_name in zip(image_urls, wohnung_names):
-            pool.apply_async(self.__download_image,
+            pool.apply_async(WebScraper._download_image,
                              args=(image_url, wohnung_name))
 
         pool.close()
