@@ -8,7 +8,7 @@
             "name": "Run and Debug wsgi.py",
             "type": "python",
             "request": "launch",
-            "program": "/home/bingo/snap/code/git/studierendenwerk-google-map/wsgi.py",
+            "program": "/home/bingo/snap/code/git/stuttgart-studentenwohnheim-map/wsgi.py",
             "console": "integratedTerminal"
         }
     ]

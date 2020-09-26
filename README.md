@@ -1,1 +1,1 @@
-# studierendenwerk-google-map
+# stuttgart-studentenwohnheim-map

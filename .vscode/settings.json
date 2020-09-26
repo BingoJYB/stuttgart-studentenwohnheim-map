@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/bingo/snap/code/git/studierendenwerk-google-map/venv/bin/python3.8",
+    "python.pythonPath": "/home/bingo/snap/code/git/stuttgart-studentenwohnheim-map/venv/bin/python3.8",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
