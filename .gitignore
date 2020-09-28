@@ -138,7 +138,7 @@ dmypy.json
 cython_debug/
 
 # Images
-images/
+app/static/images/
 
 # Database
 *.db
