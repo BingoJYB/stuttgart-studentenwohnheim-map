@@ -19,8 +19,9 @@ blueprints = [
 
 
 def create_app():
-    app = Flask(__name__, instance_relative_config=False)
-    app.config.from_object('config.Config')
+    app = Flask(__name__, instance_path='/instance_folder',
+                instance_relative_config=False)
+    app.config.from_object('instance_folder.config.Config')
 
     with app.app_context():
         for extension in extensions:

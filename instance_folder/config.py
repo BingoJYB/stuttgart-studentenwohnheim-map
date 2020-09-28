@@ -1,7 +1,7 @@
 import os
 
 
-APP_ROOT = os.path.dirname(__file__)
+APP_ROOT = os.path.join(os.path.dirname(__file__), '..')
 
 
 class Config:
