@@ -34,6 +34,6 @@ def index():
 
         db.session.commit()
 
-    ws.download_images()
+    # ws.download_images()
 
     return render_template('index.html', name='World')
