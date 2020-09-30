@@ -5,7 +5,7 @@ APP_ROOT = os.path.join(os.path.dirname(__file__), '..')
 
 
 class Config:
-    """Set Flask configuration vars from .env file."""
+    """Set Flask configuration lets from .env file."""
 
     # General
     FLASK_DEBUG = os.getenv('FLASK_DEBUG')

@@ -1,17 +1,51 @@
-// Initialize the platform object:
+let moveMapToPos = (map, latitude, longitude) => {
+  map.setCenter({ lat: latitude, lng: longitude });
+  map.setZoom(12);
+};
+
+let onError = (error) => {
+  alert(error.message);
+};
+
+//Step 1: initialize communication with the platform
 let platform = new H.service.Platform({
-  apikey: "IguusxFixBkAf3lKQdEyISmOGXvITFpQuiap17xkWb8",
+  apikey: "apikey",
 });
+let defaultLayers = platform.createDefaultLayers();
 
-// Obtain the default map types from the platform object
-var maptypes = platform.createDefaultLayers();
-
-// Instantiate (and display) a map object:
-var map = new H.Map(
+//Step 2: initialize a map - this map is centered over Europe
+let map = new H.Map(
   document.getElementById("map"),
-  maptypes.vector.normal.map,
+  defaultLayers.vector.normal.map,
   {
-    zoom: 10,
-    center: { lng: 13.4, lat: 52.51 },
+    center: { lat: 50, lng: 5 },
+    zoom: 4,
+    pixelRatio: window.devicePixelRatio || 1,
   }
+);
+// add a resize listener to make sure that the map occupies the whole container
+window.addEventListener("resize", () => map.getViewPort().resize());
+
+//Step 3: make the map interactive
+let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+// Create the default UI components
+let ui = H.ui.UI.createDefault(map, defaultLayers);
+
+// Get an instance of the geocoding service:
+let service = platform.getSearchService();
+
+service.geocode(
+  {
+    q: "Stuttgart",
+  },
+  (result) => {
+    console.log(result);
+    moveMapToPos(
+      map,
+      result.items[0].position.lat,
+      result.items[0].position.lng
+    );
+  },
+  onError
 );
