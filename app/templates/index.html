@@ -15,6 +15,10 @@
   </head>
   <body>
     <div id="map"></div>
+    <script type="text/javascript">
+        let api_key = "{{ api_key }}";
+        let name_address_pair = {{ name_address_pair | tojson }};
+    </script>
     <script type="text/javascript" src={{ url_for('static', filename='js/map.js') }}></script>
   </body>
 </html>

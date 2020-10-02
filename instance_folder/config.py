@@ -19,7 +19,10 @@ class Config:
 
     # URL
     BASE_URL = os.getenv('BASE_URL')
-    WOHNUNG_URL = BASE_URL + os.getenv('WOHNUNG_RELATIVE_URL')
+    WOHNUNG_RELATIVE_URL = os.getenv('WOHNUNG_RELATIVE_URL')
 
     # Image
     IMAGE_FOLDER = APP_ROOT + os.getenv('IMAGE_FOLDER')
+
+    # Map api key
+    MAP_API_KEY = os.getenv('MAP_API_KEY')

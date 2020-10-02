@@ -9,7 +9,7 @@ let onError = (error) => {
 
 //Step 1: initialize communication with the platform
 let platform = new H.service.Platform({
-  apikey: "apikey",
+  apikey: api_key,
 });
 let defaultLayers = platform.createDefaultLayers();
 

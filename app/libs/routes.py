@@ -1,7 +1,8 @@
-from flask import current_app, Blueprint, render_template
+from flask import Blueprint, render_template
 
 from app.libs.sqlalchemy import db, WohnungInfo
 from app.libs.scraper import WebScraper
+from app.libs.utilities import get_map_api_key, get_wohnung_url
 
 
 my_app = Blueprint('my_app', __name__,
@@ -10,7 +11,7 @@ my_app = Blueprint('my_app', __name__,
 
 @my_app.route('/')
 def index():
-    ws = WebScraper(current_app.config['WOHNUNG_URL'])
+    ws = WebScraper(get_wohnung_url())
     ws.parse_page()
 
     for wohnung_info in ws.studentenwohnheim.wohnungen:
@@ -36,4 +37,9 @@ def index():
 
     # ws.download_images()
 
-    return render_template('index.html', name='World')
+    name_address_pair = {
+        wohnung.name: wohnung.address for wohnung in ws.studentenwohnheim}
+
+    return render_template('index.html',
+                           api_key=get_map_api_key(),
+                           name_address_pair=name_address_pair)
