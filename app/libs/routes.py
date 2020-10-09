@@ -37,9 +37,8 @@ def index():
 
     # ws.download_images()
 
-    name_address_pair = {
-        wohnung.name: wohnung.address for wohnung in ws.studentenwohnheim}
+    addresses = [wohnung.address for wohnung in ws.studentenwohnheim]
 
     return render_template('index.html',
                            api_key=get_map_api_key(),
-                           name_address_pair=name_address_pair)
+                           addresses=addresses)

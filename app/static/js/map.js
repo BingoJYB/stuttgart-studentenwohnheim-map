@@ -1,10 +1,21 @@
-let name_position_pair = {};
-
-let addMarkersToMap = (map) => {
-  for (const [wohnung_name, position] of Object.entries(name_position_pair)) {
-    console.log(position);
-    map.addObject(new H.map.Marker({ lat: position[0], lng: position[1] }));
+let addMarkersToMap = (map, results) => {
+  for (let result of results) {
+    map.addObject(
+      new H.map.Marker({
+        lat: result.items[0].position.lat,
+        lng: result.items[0].position.lng,
+      })
+    );
   }
+};
+
+let moveMapToPos = (map, latitude, longitude) => {
+  map.setCenter({ lat: latitude, lng: longitude });
+  map.setZoom(12);
+};
+
+let onError = (error) => {
+  alert(error.message);
 };
 
 //Step 1: initialize communication with the platform
@@ -35,27 +46,31 @@ let ui = H.ui.UI.createDefault(map, defaultLayers);
 // Get an instance of the geocoding service:
 let service = platform.getSearchService();
 
+// call geocoding service for each address
 let promises = [];
-
-for (const [wohnung_name, address] of Object.entries(name_address_pair)) {
+for (let address of addresses) {
   promises.push(
-    service.geocode(
-      {
-        q: address,
-      },
-      (result) => {
-        name_position_pair[wohnung_name] = [
-          result.items[0].position.lat,
-          result.items[0].position.lng,
-        ];
-      },
-      (error) => {
-        alert(error.message);
-      }
-    )
+    service.geocode({
+      q: address,
+    })
   );
 }
 
-Promise.all(promises).then((values) => {
-  addMarkersToMap(map);
+Promise.all(promises).then((results) => {
+  addMarkersToMap(map, results);
 });
+
+// move to Stuttgart
+service.geocode(
+  {
+    q: "Stuttgart",
+  },
+  (result) => {
+    moveMapToPos(
+      map,
+      result.items[0].position.lat,
+      result.items[0].position.lng
+    );
+  },
+  onError
+);
