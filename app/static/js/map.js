@@ -1,16 +1,50 @@
-let addMarkersToMap = (map, results) => {
-  for (let result of results) {
-    map.addObject(
-      new H.map.Marker({
-        lat: result.items[0].position.lat,
-        lng: result.items[0].position.lng,
-      })
+let addMarkerToGroup = (group, coordinate, html) => {
+  let marker = new H.map.Marker(coordinate);
+  // add custom data to the marker
+  marker.setData(html);
+  group.addObject(marker);
+};
+
+let addInfoBubble = (wohnungen) => {
+  let group = new H.map.Group();
+
+  map.addObject(group);
+
+  // add 'tap' event listener, that opens info bubble, to the group
+  group.addEventListener(
+    "tap",
+    (event) => {
+      // event target is the marker itself, group is a parent event target
+      // for all objects that it contains
+      let bubble = new H.ui.InfoBubble(event.target.getGeometry(), {
+        // read custom data
+        content: event.target.getData(),
+      });
+      // show info bubble
+      ui.addBubble(bubble);
+    },
+    false
+  );
+
+  // iterate over wohnungen and add each bubble info
+  for (let wohnung of wohnungen) {
+    addMarkerToGroup(
+      group,
+      {
+        lat: wohnung.items[0].position.lat,
+        lng: wohnung.items[0].position.lng,
+      },
+      '<div><a href="http://www.mcfc.co.uk" target="_blank">Manchester City</a>' +
+        "</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>"
     );
   }
 };
 
-let moveMapToPos = (map, latitude, longitude) => {
-  map.setCenter({ lat: latitude, lng: longitude });
+let moveMapToCity = (city) => {
+  map.setCenter({
+    lat: city.items[0].position.lat,
+    lng: city.items[0].position.lng,
+  });
   map.setZoom(12);
 };
 
@@ -56,8 +90,8 @@ for (let address of addresses) {
   );
 }
 
-Promise.all(promises).then((results) => {
-  addMarkersToMap(map, results);
+Promise.all(promises).then((wohnungen) => {
+  addInfoBubble(wohnungen);
 });
 
 // move to Stuttgart
@@ -65,12 +99,6 @@ service.geocode(
   {
     q: "Stuttgart",
   },
-  (result) => {
-    moveMapToPos(
-      map,
-      result.items[0].position.lat,
-      result.items[0].position.lng
-    );
-  },
+  moveMapToCity,
   onError
 );
