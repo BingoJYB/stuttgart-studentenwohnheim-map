@@ -17,7 +17,7 @@
     <div id="map"></div>
     <script type="text/javascript">
         let api_key = "{{ api_key }}";
-        let addresses = {{ addresses | tojson }};
+        let wohnungen = {{ wohnungen | tojson }};
     </script>
     <script type="text/javascript" src={{ url_for('static', filename='js/map.js') }}></script>
   </body>

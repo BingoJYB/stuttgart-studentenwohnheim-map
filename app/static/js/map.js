@@ -5,7 +5,7 @@ let addMarkerToGroup = (group, coordinate, html) => {
   group.addObject(marker);
 };
 
-let addInfoBubble = (wohnungen) => {
+let addInfoBubble = (results) => {
   let group = new H.map.Group();
 
   map.addObject(group);
@@ -26,16 +26,26 @@ let addInfoBubble = (wohnungen) => {
     false
   );
 
-  // iterate over wohnungen and add each bubble info
-  for (let wohnung of wohnungen) {
+  // iterate over results and add each bubble info
+  for (let result of results) {
+    let name = result["wohnung"][0];
+    let address = result["wohnung"][1];
+    let detail_url = result["wohnung"][2];
+
     addMarkerToGroup(
       group,
       {
-        lat: wohnung.items[0].position.lat,
-        lng: wohnung.items[0].position.lng,
+        lat: result["geo"].items[0].position.lat,
+        lng: result["geo"].items[0].position.lng,
       },
-      '<div><a href="http://www.mcfc.co.uk" target="_blank">Manchester City</a>' +
-        "</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>"
+      "<a href=" +
+        detail_url +
+        ' target="_blank">' +
+        "<div>" +
+        name +
+        "</div><div>" +
+        address +
+        "</div></a>"
     );
   }
 };
@@ -82,16 +92,20 @@ let service = platform.getSearchService();
 
 // call geocoding service for each address
 let promises = [];
-for (let address of addresses) {
+for (let wohnung of wohnungen) {
   promises.push(
-    service.geocode({
-      q: address,
-    })
+    service
+      .geocode({
+        q: wohnung[1],
+      })
+      .then((result) => {
+        return { geo: result, wohnung: wohnung };
+      })
   );
 }
 
-Promise.all(promises).then((wohnungen) => {
-  addInfoBubble(wohnungen);
+Promise.all(promises).then((results) => {
+  addInfoBubble(results);
 });
 
 // move to Stuttgart

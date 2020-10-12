@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 
 from app.libs.sqlalchemy import db, WohnungInfo
 from app.libs.scraper import WebScraper
-from app.libs.utilities import get_map_api_key, get_wohnung_url
+from app.libs.utilities import get_map_api_key, get_wohnung_detail_url, get_wohnung_url
 
 
 my_app = Blueprint('my_app', __name__,
@@ -37,8 +37,9 @@ def index():
 
     # ws.download_images()
 
-    addresses = [wohnung.address for wohnung in ws.studentenwohnheim]
+    wohnungen = [(wohnung.name, wohnung.address, get_wohnung_detail_url(
+        wohnung.detail_url)) for wohnung in ws.studentenwohnheim]
 
     return render_template('index.html',
                            api_key=get_map_api_key(),
-                           addresses=addresses)
+                           wohnungen=wohnungen)
